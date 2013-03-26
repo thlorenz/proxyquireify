@@ -1,19 +1,23 @@
-var stubbedModules = { };
-
-function proxyquire(id, request) {
+function proxyquire_(request, stubs) {
   var require = this;
 
-  var stubs = stubbedModules[id];
+  window.stubs = stubs;
+  var dep = require(request);
+  delete window.stubs;
+
+  return dep;
+}
+
+function stubrequire(request) {
+  var require = this;
+
+  var stubs = window.stubs;
   if (!stubs) return require(request);
 
   var stub = stubs[request];
   if (!stub) return require(request);
   
   return stub;
-}
-
-function register(id, stubs) {
-  stubbedModules[id] = stubs;
 }
 
 // modules are defined as an array
@@ -67,9 +71,10 @@ function register(id, stubs) {
   {
     test: [
         function(require,module,exports){
-          register('id:foo', { './bar': { wunder: function () { return 'really, really wunderbar'; } } });
+          var proxyquire = proxyquire_.bind(require);
+          var stubs = { './bar': { wunder: function () { return 'really, really wunderbar'; } } };
 
-          var foo = require('./src/foo');
+          var foo = proxyquire('./src/foo', stubs);
           console.log(foo());
 
         }
@@ -79,7 +84,7 @@ function register(id, stubs) {
         function(require, module, exports){
 
           var require_ = require;
-          require = proxyquire.bind(require_, 'id:foo');
+          require = stubrequire.bind(require_);
 
           var bar = require('./bar');
 
