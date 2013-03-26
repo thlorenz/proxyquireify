@@ -1,0 +1,31 @@
+{
+  "name": "proxyquireify",
+  "version": "0.0.0",
+  "description": "browserify version of proxyquire. Mocks out browserify's require to allow stubbing out dependencies while testing",
+  "main": "proxyquireify.js",
+  "scripts": {
+    "test": "node-trap test/*.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/thlorenz/proxyquireify.git"
+  },
+  "homepage": "https://github.com/thlorenz/proxyquireify",
+  "dependencies": {
+    "through": "~2.2.7"
+  },
+  "devDependencies": {
+    "trap": "~0.4.2",
+    "browserify": "~2.7.3"
+  },
+  "keywords": [],
+  "author": {
+    "name": "Thorsten Lorenz",
+    "email": "thlorenz@gmx.de",
+    "url": "http://thlorenz.com"
+  },
+  "license": "MIT",
+  "engine": {
+    "node": ">=0.6"
+  }
+}
