@@ -1,33 +1,3 @@
-function proxyquire_(request, stubs) {
-  var require = this;
-
-  window.stubs = stubs;
-  var dep = require(request);
-  delete window.stubs;
-
-  return dep;
-}
-
-function stubrequire(request) {
-  var require = this;
-
-  var stubs = window.stubs;
-  if (!stubs) return require(request);
-
-  var stub = stubs[request];
-  if (!stub) return require(request);
-  
-  return stub;
-}
-
-// modules are defined as an array
-// [ module function, map of requireuires ]
-//
-// map of requireuires is short require name -> numeric require
-//
-// anything defined in a previous bundle is accessed via the
-// orig method which is the requireuire for previous bundles
-
 (function(modules, cache, entry) {
 
     function innerReq(name, jumped){
@@ -69,9 +39,48 @@ function stubrequire(request) {
 
 (
   {
-    test: [
+      proxyquire: [
+        function(require, module, exports){
+          module.exports = function(request, stubs) {
+
+            // caller will not exist if in strict mode 
+            var caller = arguments.callee.caller;
+
+            var require_ = caller ? caller.arguments[0] : this;
+
+            // set the stubs and require dependency
+            // when stub require is invoked it will find the stubs here
+            window.__proxyquire__stubs = stubs;
+            var dep = require_(request);
+            delete window.__proxyquire__stubs;
+
+            return dep;
+          };
+        }
+      , {}
+      ]
+  , stubrequire: [
+        function(require, module, exports){
+      
+          module.exports = function (request) {
+            var require = this;
+
+            var stubs = window.__proxyquire__stubs;
+            if (!stubs) return require(request);
+
+            var stub = stubs[request];
+            if (!stub) return require(request);
+            
+            return stub;
+          };
+        }
+      , {}
+    ]
+  , test: [
         function(require,module,exports){
-          var proxyquire = proxyquire_.bind(require);
+          'use strict';
+          var proxyquire = require('proxyquire').bind(require);
+
           var stubs = { './bar': { wunder: function () { return 'really, really wunderbar'; } } };
 
           var foo = proxyquire('./src/foo', stubs);
@@ -83,8 +92,10 @@ function stubrequire(request) {
   , foo: [
         function(require, module, exports){
 
+          // added via transform ---->
           var require_ = require;
-          require = stubrequire.bind(require_);
+          require = require('stubrequire').bind(require_);
+          // <----
 
           var bar = require('./bar');
 
@@ -106,8 +117,8 @@ function stubrequire(request) {
       ]
   }
 
-, {}  // cache
+, {}         // cache
 
-, [ 'test' ] // entry === ./src/foo.js
+, [ 'test' ] // entry === test 
 )
 ;
