@@ -60,15 +60,26 @@
   , stubrequire: [
         function(require, module, exports){
       
+          function fillMissingKeys(mdl, original) {
+            Object.keys(original).forEach(function (key) {
+              if (!mdl[key])  mdl[key] = original[key];
+            });
+
+            return mdl;
+          }
+
           var stubs;
           exports.proxy =  function (require_) {
             return function (request) {
-              if (!stubs) return require_(request);
+              // TODO: @nocallthru
+              var original = require_(request);
+
+              if (!stubs) return original; 
 
               var stub = stubs[request];
-              if (!stub) return require_(request);
+              if (!stub) return original;
               
-              return stub;
+              return fillMissingKeys(stub, original);
             };
           };
           exports.stub  = function (stubs_) { stubs = stubs_; };
@@ -100,7 +111,7 @@
           var bar = require('./bar');
 
           module.exports = function () {
-            return bar.wunder();
+            return bar.kinder() + ' ist ' + bar.wunder();
           };
 
         }
@@ -111,7 +122,9 @@
           exports.wunder = function () { 
             return 'wunderbar'; 
           };
-
+          exports.kinder = function () {
+            return 'schokolade';
+          };
         }
       ,{}
       ]
