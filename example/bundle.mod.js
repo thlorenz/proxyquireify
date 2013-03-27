@@ -41,14 +41,15 @@
   {
       proxyquire: [
         function(require, module, exports){
+          var stubrequire = require('stubrequire');
 
           module.exports =  function (require_) {
             return function(request, stubs) {
               // set the stubs and require dependency
-              // when stub require is invoked it will find the stubs here
-              window.__proxyquire__stubs = stubs;
+              // when stub require is invoked by the module under test it will find the stubs here
+              stubrequire.stub(stubs);
               var dep = require_(request);
-              delete window.__proxyquire__stubs;
+              stubrequire.reset();
 
               return dep;
             };
@@ -59,9 +60,9 @@
   , stubrequire: [
         function(require, module, exports){
       
-          module.exports =  function (require_) {
+          var stubs;
+          exports.proxy =  function (require_) {
             return function (request) {
-              var stubs = window.__proxyquire__stubs;
               if (!stubs) return require_(request);
 
               var stub = stubs[request];
@@ -70,6 +71,8 @@
               return stub;
             };
           };
+          exports.stub  = function (stubs_) { stubs = stubs_; };
+          exports.reset = function () { stubs = null; };
         }
       , {}
     ]
@@ -91,7 +94,7 @@
 
           // added via transform ---->
           var require_ = require;
-          require = require('stubrequire')(require_);
+          require = require('stubrequire').proxy(require_);
           // <----
 
           var bar = require('./bar');
