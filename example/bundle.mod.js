@@ -41,20 +41,17 @@
   {
       proxyquire: [
         function(require, module, exports){
-          module.exports = function(request, stubs) {
 
-            // caller will not exist if in strict mode 
-            var caller = arguments.callee.caller;
+          module.exports =  function (require_) {
+            return function(request, stubs) {
+              // set the stubs and require dependency
+              // when stub require is invoked it will find the stubs here
+              window.__proxyquire__stubs = stubs;
+              var dep = require_(request);
+              delete window.__proxyquire__stubs;
 
-            var require_ = caller ? caller.arguments[0] : this;
-
-            // set the stubs and require dependency
-            // when stub require is invoked it will find the stubs here
-            window.__proxyquire__stubs = stubs;
-            var dep = require_(request);
-            delete window.__proxyquire__stubs;
-
-            return dep;
+              return dep;
+            };
           };
         }
       , {}
@@ -62,16 +59,16 @@
   , stubrequire: [
         function(require, module, exports){
       
-          module.exports = function (request) {
-            var require = this;
+          module.exports =  function (require_) {
+            return function (request) {
+              var stubs = window.__proxyquire__stubs;
+              if (!stubs) return require_(request);
 
-            var stubs = window.__proxyquire__stubs;
-            if (!stubs) return require(request);
-
-            var stub = stubs[request];
-            if (!stub) return require(request);
-            
-            return stub;
+              var stub = stubs[request];
+              if (!stub) return require_(request);
+              
+              return stub;
+            };
           };
         }
       , {}
@@ -79,7 +76,7 @@
   , test: [
         function(require,module,exports){
           'use strict';
-          var proxyquire = require('proxyquire').bind(require);
+          var proxyquire = require('proxyquire')(require);
 
           var stubs = { './bar': { wunder: function () { return 'really, really wunderbar'; } } };
 
@@ -94,7 +91,7 @@
 
           // added via transform ---->
           var require_ = require;
-          require = require('stubrequire').bind(require_);
+          require = require('stubrequire')(require_);
           // <----
 
           var bar = require('./bar');
