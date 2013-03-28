@@ -41,28 +41,11 @@
   {
       proxyquire: [
         function(require, module, exports){
-          var stubrequire = require('stubrequire');
+          var stubs;
 
-          module.exports =  function (require_) {
-            stubrequire.reset();
+          function stub(stubs_) { stubs = stubs_; }
+          function reset() { stubs = null; }
 
-            return function(request, stubs) {
-
-              // set the stubs and require dependency
-              // when stub require is invoked by the module under test it will find the stubs here
-              stubrequire.stub(stubs);
-              var dep = require_(request);
-              stubrequire.reset();
-
-              return dep;
-            };
-          };
-        }
-      , {}
-      ]
-  , stubrequire: [
-        function(require, module, exports){
-      
           function fillMissingKeys(mdl, original) {
             Object.keys(original).forEach(function (key) {
               if (!mdl[key])  mdl[key] = original[key];
@@ -71,8 +54,22 @@
             return mdl;
           }
 
-          var stubs;
-          exports.proxy =  function (require_) {
+          var proxyquire = module.exports = function (require_) {
+            reset();
+
+            return function(request, stubs) {
+
+              // set the stubs and require dependency
+              // when stub require is invoked by the module under test it will find the stubs here
+              stub(stubs);
+              var dep = require_(request);
+              reset();
+
+              return dep;
+            };
+          };
+
+          proxyquire.proxy =  function (require_) {
             return function (request) {
               function original() {
                 return require_(request);
@@ -87,11 +84,9 @@
               return noCallThru ? stub : fillMissingKeys(stub, original());
             };
           };
-          exports.stub  = function (stubs_) { stubs = stubs_; };
-          exports.reset = function () { stubs = null; };
         }
       , {}
-    ]
+      ]
   , test: [
         function(require,module,exports){
           'use strict';
@@ -116,7 +111,7 @@
 
           // added via transform ---->
           var require_ = require;
-          require = require('stubrequire').proxy(require_);
+          require = require('proxyquire').proxy(require_);
           // <----
 
           var bar = require('./bar');
