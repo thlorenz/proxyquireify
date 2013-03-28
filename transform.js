@@ -1,6 +1,10 @@
 'use strict';
 
-var through = require('through');
+var through = require('through')
+  , prelude = 
+      ';var require_ = require;'
+    + 'var require = require(\'proxyquireify\').proxy(require_);'
+    ;
 
 module.exports = function (file) {
   if (file === require.resolve('./index')) return through();
@@ -10,7 +14,13 @@ module.exports = function (file) {
     
   function write (buf) { data += buf; }
   function end() {
-    this.queue(';var orig_require=require;var require=orig_require(\'proxyquireify\').bind(orig_require);\n');
+
+    if (file === __filename) {
+      this.queue('// transform was excluded from the bundle since it is only needed during the build');
+      return this.queue(null);
+    }
+
+    this.queue(prelude);
     this.queue(data);
     this.queue(null);
   }
