@@ -1,5 +1,5 @@
 'use strict';
-var proxyquire = require('../index')(require);
+var proxyquire = require('proxyquireify')(require);
 
 var stubs = { 
   './bar': { 
