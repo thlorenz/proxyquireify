@@ -4,8 +4,44 @@ browserify version of proxyquire. Mocks out browserify's require to allow stubbi
 
 ## Status
 
-In the works, move along for now.
+Very alpha, although the main functionality is there.
 
-[this](https://github.com/thlorenz/proxyquireify/blob/master/example/bundle.mod.js) is the kind of bundle it will
-generate to allow mocking required dependencies.
+## Example
 
+Lets say we have `bar.js`:
+
+```js
+exports.wunder = function () { 
+  return 'wunderbar'; 
+};
+```
+
+and `foo.js`:
+
+```js
+var bar = require('./bar');
+
+module.exports = function () {
+  return bar.kinder() + ' ist ' + bar.wunder();
+};
+```
+
+then we can stub `bar` in a test like so:
+
+```js
+var proxyquire = require('proxyquireify')(require);
+
+var stubs = { 
+  './bar': { 
+      wunder: function () { return 'wirklich wunderbar'; }
+    , kinder: function () { return 'schokolade'; }
+  }
+};
+
+var foo = proxyquire('./src/foo', stubs);
+
+// This require to be called AFTER proxyquire in order for browserify to include it in the bundle
+require('./src/foo');
+
+console.log(foo()); // -> schokolade ist wirklich wunderbar
+```
