@@ -43,5 +43,19 @@ var foo = proxyquire('./src/foo', stubs);
 // This require to be called AFTER proxyquire in order for browserify to include it in the bundle
 require('./src/foo');
 
-console.log(foo()); // -> schokolade ist wirklich wunderbar
+console.log(foo()); 
 ```
+
+Finally build the bundle via `build.js`:
+
+```js
+browserify()
+  .require(require.resolve('./test'), { entry: true })
+  .transform(require('proxyquireify').transform)
+  .bundle({ debug: true })
+  .pipe(fs.createWriteStream(__dirname + '/bundle.js'));
+```
+
+load it in the browser and see:
+
+    schokolade ist wirklich wunderbar
