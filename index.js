@@ -49,3 +49,5 @@ proxyquire.proxy =  function (require_) {
     return noCallThru ? stub : fillMissingKeys(stub, original());
   };
 };
+
+proxyquire.transform = require('./transform');
