@@ -44,7 +44,10 @@
           var stubrequire = require('stubrequire');
 
           module.exports =  function (require_) {
+            stubrequire.reset();
+
             return function(request, stubs) {
+
               // set the stubs and require dependency
               // when stub require is invoked by the module under test it will find the stubs here
               stubrequire.stub(stubs);
@@ -71,15 +74,17 @@
           var stubs;
           exports.proxy =  function (require_) {
             return function (request) {
-              // TODO: @nocallthru
-              var original = require_(request);
+              function original() {
+                return require_(request);
+              }
 
-              if (!stubs) return original; 
+              if (!stubs) return original();
 
               var stub = stubs[request];
-              if (!stub) return original;
-              
-              return fillMissingKeys(stub, original);
+              if (!stub) return original();
+
+              var noCallThru = (!!stubs['@noCallThru'] && stub['@noCallThru'] !== false) || !!stub['@noCallThru'];
+              return noCallThru ? stub : fillMissingKeys(stub, original());
             };
           };
           exports.stub  = function (stubs_) { stubs = stubs_; };
@@ -92,7 +97,13 @@
           'use strict';
           var proxyquire = require('proxyquire')(require);
 
-          var stubs = { './bar': { wunder: function () { return 'really, really wunderbar'; } } };
+          var stubs = { 
+                './bar': { 
+                  wunder: function () { return 'really, really wunderbar'; }
+              , '@noCallThru': false
+              }
+              , '@noCallThru': true
+          };
 
           var foo = proxyquire('./src/foo', stubs);
           console.log(foo());
