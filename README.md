@@ -1,4 +1,4 @@
-# proxyquireify
+# proxyquireify [![build status](https://secure.travis-ci.org/thlorenz/proxyquireify.png)](http://travis-ci.org/thlorenz/proxyquireify)
 
 browserify version of proxyquire. Mocks out browserify's require to allow stubbing out dependencies while testing
 
