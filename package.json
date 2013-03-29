@@ -4,7 +4,7 @@
   "description": "browserify version of proxyquire. Mocks out browserify's require to allow stubbing out dependencies while testing",
   "main": "proxyquireify.js",
   "scripts": {
-    "test": "node-trap test/*.js"
+    "test": "node test/run.js"
   },
   "repository": {
     "type": "git",
@@ -15,8 +15,8 @@
     "through": "~2.2.7"
   },
   "devDependencies": {
-    "trap": "~0.4.2",
-    "browserify": "~2.7.3"
+    "browserify": "~2.7.3",
+    "tape": "~0.3.2"
   },
   "keywords": [],
   "author": {
