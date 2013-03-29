@@ -1,6 +1,6 @@
 
-function __browserify__nocache(name) {
-  return name !== 'proxyquire';
+function __browserify__docache(name) {
+  return name === 'proxyquire';
 }
 
 require=
@@ -9,7 +9,7 @@ require=
     function innerReq(name, jumped){
         var m = cache[name];
         if(!m || 
-           (typeof __browserify__shouldUseCache !== 'undefined'  || __browserify__nocache(name))) {
+           (typeof __browserify__docache !== 'undefined'  &&  !__browserify__docache(name))) {
 
             if(!modules[name]) {
                 // if we cannot find the item within our internal map jump to
