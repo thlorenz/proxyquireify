@@ -15,7 +15,7 @@ proxyquire.browserify()
   .on('error',  function error(err) { console.error(err); process.exit(1); })
   .on('data', function (data) { src += data })
   .on('end', function () {
-    require('fs').writeFileSync(require.resolve('../example/bundle.js'), src, 'utf-8')
+    // require('fs').writeFileSync(require.resolve('../example/bundle.js'), src, 'utf-8')
 
     vm.runInNewContext(src, { 
         setTimeout    :  setTimeout
