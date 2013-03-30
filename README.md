@@ -132,3 +132,7 @@ var foo = proxyquire('./foo', {
   , '@noCallThru': true
 });
 ```
+
+## More Examples
+
+- [foobar](https://github.com/thlorenz/proxyquireify/tree/master/examples/foobar)
