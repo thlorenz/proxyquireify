@@ -1,4 +1,7 @@
 'use strict';
+// make browerify include foo
+require('./src/foo');
+
 var proxyquire = require('proxyquireify')(require);
 
 var stubs = { 
@@ -9,9 +12,4 @@ var stubs = {
 };
 
 var foo = proxyquire('./src/foo', stubs);
-
-// TODO: why does this break this line is before the proxyquire call?
-//       autogenerate these calls somehow (i.e. via transform?)
-require('./src/foo');
-
 console.log(foo());

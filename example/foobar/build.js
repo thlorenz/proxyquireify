@@ -5,5 +5,5 @@ var fs         =  require('fs')
 proxyquire.browserify()
   .require(require.resolve('./test'), { entry: true })
   .bundle({ debug: true })
-  .pipe(require('mold-source-map').transformSourcesRelativeTo(__dirname + '../../'))
+  .pipe(require('mold-source-map').transformSourcesRelativeTo(__dirname))
   .pipe(fs.createWriteStream(__dirname + '/bundle.js'));
