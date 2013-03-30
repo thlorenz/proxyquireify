@@ -4,7 +4,7 @@
   "description": "browserify version of proxyquire. Mocks out browserify's require to allow stubbing out dependencies while testing",
   "main": "proxyquireify.js",
   "scripts": {
-    "test": "npm install escodegen && node test/run.js"
+    "test": "node test/run.js"
   },
   "repository": {
     "type": "git",
