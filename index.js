@@ -52,5 +52,4 @@ proxyquire.proxy =  function (require_) {
 };
 
 // below only used during build
-proxyquire.transform  =  require('./transform');
 proxyquire.browserify =  require('./adapt-prelude').browserify;

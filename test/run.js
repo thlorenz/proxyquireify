@@ -9,7 +9,6 @@ function run(name) {
   var src = '';
 
   proxyquire.browserify()
-    .transform(proxyquire.transform)
     .require(require.resolve('..'), { expose: 'proxyquireify' })
     .require(require.resolve('./' + name), { entry: true })
     .bundle()

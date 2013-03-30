@@ -15,6 +15,9 @@ fs.readFileSync = function (path) {
   return fs_readFileSync.apply(null, args);
 };
 
-delete require.cache[require.resolve('browserify')];
-delete require.cache[require.resolve('browserify/node_modules/browser-pack')];
-exports.browserify = require('browserify');
+exports.browserify = function (files) { 
+  delete require.cache[require.resolve('browserify')];
+  delete require.cache[require.resolve('browserify/node_modules/browser-pack')];
+
+  return require('browserify')(files).transform(require('./transform'));
+};
