@@ -10,8 +10,23 @@
     // Save the require from previous bundle to this closure if any
     var previousRequire = typeof require == "function" && require;
 
+    function findProxyquireifyName() {
+      var deps = Object.keys(modules)
+        .map(function (k) { return modules[k][1]; });
+
+      for (var i = 0; i < deps.length; i++) {
+        var pq = deps[i]['proxyquireify'];
+        if (pq) return pq;
+      }
+    }
+
+    var proxyquireifyName = findProxyquireifyName();
+
     function newRequire(name, jumped){
-        if(!cache[name]) {
+        var m = cache[name];
+        var dontcache = name !== proxyquireifyName;
+
+        if(!m || dontcache) {
             if(!modules[name]) {
                 // if we cannot find the the module within our internal map or
                 // cache jump to the current global require ie. the last bundle
@@ -26,13 +41,12 @@
                 if (previousRequire) return previousRequire(name, true);
                 throw new Error('Cannot find module \'' + name + '\'');
             }
-            var m = cache[name] = {exports:{}};
+            m = cache[name] = {exports:{}};
             modules[name][0](function(x){
                 var id = modules[name][1][x];
                 return newRequire(id ? id : x);
             },m,m.exports);
         }
-        browserify__cache = cache;
         return cache[name].exports;
     }
     for(var i=0;i<entry.length;i++) newRequire(entry[i]);

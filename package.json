@@ -15,8 +15,9 @@
     "through": "~2.2.7"
   },
   "devDependencies": {
-    "browserify": "~2.7.3",
-    "tape": "~0.3.2"
+    "tape": "~0.3.2",
+    "mold-source-map": "~0.2.0",
+    "browserify": "~2.10.2"
   },
   "keywords": [],
   "author": {

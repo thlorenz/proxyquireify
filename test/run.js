@@ -1,16 +1,27 @@
 'use strict';
 /*jshint asi: true */
 
-var browserify =  require('browserify');
-var vm         =  require('vm');
+require('browserify');
 var proxyquire =  require('..');
+var vm         =  require('vm');
 
-browserify()
-  .require(require.resolve('..'), { expose: 'proxyquireify' })
-  .add(require.resolve('./proxyquireify'))
+var src = '';
+
+proxyquire.browserify()
   .transform(proxyquire.transform)
-  .bundle(function (err, src) {
-    if (err) return console.error(err);
-    var res = vm.runInNewContext(src, { setTimeout: setTimeout, console: console } );
+  .require(require.resolve('..'), { expose: 'proxyquireify' })
+  .require(require.resolve('./independent-overrides'), { entry: true })
+  .bundle()
+  .on('error',  function error(err) { console.error(err); process.exit(1); })
+  .on('data', function (data) { src += data })
+  .on('end', function () {
+    require('fs').writeFileSync(require.resolve('../example/bundle.js'), src, 'utf-8')
+
+    vm.runInNewContext(src, { 
+        setTimeout    :  setTimeout
+      , clearInterval :  clearInterval
+      , console       :  console
+      , window        :  {}
+    } );
 });
 

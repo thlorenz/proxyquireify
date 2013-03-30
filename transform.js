@@ -1,10 +1,17 @@
 'use strict';
 
 var through = require('through')
+  , excludes = {}
   , prelude = 
       ';var require_ = require;'
     + 'var require = require(\'proxyquireify\').proxy(require_);'
     ;
+
+[ __filename
+, require.resolve('./adapt-prelude')
+, require.resolve('browserify')
+].forEach(function (k) { excludes[k] = true; });
+
 
 module.exports = function (file) {
   if (file === require.resolve('./index')) return through();
@@ -15,8 +22,8 @@ module.exports = function (file) {
   function write (buf) { data += buf; }
   function end() {
 
-    if (file === __filename) {
-      this.queue('// transform was excluded from the bundle since it is only needed during the build');
+    if (excludes[file]) {
+      this.queue('// this file was excluded from the bundle since it is only needed during the build');
       return this.queue(null);
     }
 

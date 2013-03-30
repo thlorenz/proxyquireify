@@ -3,11 +3,11 @@ var stats = require('./stats')
   , path = require('path')
   ;
 
-stats.incFooRequires();
+window.foostats.incFooRequires();
 
 function bigBar () { 
-  // inline require
-  return require('./bar').bar().toUpperCase();
+  // inline require not working in proxquireify (unlike in original proxyquire)
+  return bar.bar().toUpperCase();
 }
 
 function bigRab () {

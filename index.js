@@ -7,7 +7,7 @@ function stub(stubs_) {
 }
 
 function reset() { 
-  stubs = null; 
+  stubs = undefined; 
 }
 
 function fillMissingKeys(mdl, original) {
@@ -42,6 +42,7 @@ proxyquire.proxy =  function (require_) {
     if (!stubs) return original();
 
     var stub = stubs[request];
+
     if (!stub) return original();
 
     var stubWideNoCallThru = !!stubs['@noCallThru'] && stub['@noCallThru'] !== false;
@@ -50,4 +51,6 @@ proxyquire.proxy =  function (require_) {
   };
 };
 
-proxyquire.transform = require('./transform');
+// below only used during build
+proxyquire.transform  =  require('./transform');
+proxyquire.browserify =  require('./adapt-prelude').browserify;
