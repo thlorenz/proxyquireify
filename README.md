@@ -49,9 +49,11 @@ console.log(foo());
 Finally build the bundle via `build.js`:
 
 ```js
-browserify()
+var proxyquire = require('proxyquireify');
+
+proxyquire.browserify()
+  .transform(proxyquire.transform)
   .require(require.resolve('./test'), { entry: true })
-  .transform(require('proxyquireify').transform)
   .bundle({ debug: true })
   .pipe(fs.createWriteStream(__dirname + '/bundle.js'));
 ```

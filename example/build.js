@@ -1,7 +1,10 @@
-var fs = require('fs')
-  , browserify = require('browserify');
+var fs         =  require('fs')
+  , proxyquire =  require('..')
+  ;
 
-browserify()
+
+proxyquire.browserify()
+  .transform(proxyquire.transform)
   .require(require.resolve('./test'), { entry: true })
   // shouldn't be needed once proxyquireify is a proper package
   .require(require.resolve('..'), { expose: 'proxyquireify' })
