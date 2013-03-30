@@ -77,5 +77,8 @@ proxyquire.proxy =  function (require_) {
   };
 };
 
-// below only used during build
-proxyquire.browserify =  require('./hack-prelude').browserify;
+if (require.cache) {
+  // only used during build, so prevent browserify from including it
+  var hackPrelude = './hack-prelude';
+  proxyquire.browserify = require(hackPrelude).browserify;
+}

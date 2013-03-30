@@ -4,7 +4,7 @@
     "description" : "proxyquireify foobar example",
     "main" : "foobar.js",
     "scripts" : {
-        "test" : "node-trap test/*.js"
+        "test" : "node build && npm install opener && opener index.html"
     },
     "repository" : {
         "type" : "git",
