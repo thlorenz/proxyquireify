@@ -29,3 +29,4 @@ function run(name) {
 run('independent-overrides')
 run('manipulating-overrides')
 run('noCallThru')
+run('argument-validation')

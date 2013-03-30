@@ -9,7 +9,7 @@ var test       =  require('tape')
   , file = '/folder/test.ext'
   ;
 
-test('no noCallThru and extname overridden', function (t) {
+test('\n# no noCallThru and extname overridden', function (t) {
   var foo = proxyquire('./fixtures/foo', {
     path:{
       extname : function (file) { return 'override ' + file; }
@@ -21,7 +21,7 @@ test('no noCallThru and extname overridden', function (t) {
   t.end()
 })
 
-test('path noCallThru and extname overridden', function (t) {
+test('\n# path noCallThru and extname overridden', function (t) {
   var foo = proxyquire('./fixtures/foo', {
     path:{
         extname : function (file) { return 'override ' + file; }
@@ -34,7 +34,7 @@ test('path noCallThru and extname overridden', function (t) {
   t.end()
 })
 
-test('stub wide noCallThru and extname overridden', function (t) {
+test('\n# stub wide noCallThru and extname overridden', function (t) {
   var foo = proxyquire('./fixtures/foo', {
     path:{
       extname : function (file) { return 'override ' + file; }
@@ -47,7 +47,7 @@ test('stub wide noCallThru and extname overridden', function (t) {
   t.end()
 })
 
-test('stub wide noCallThru but for path noCallThru turned off and extname overridden', function (t) {
+test('\n# stub wide noCallThru but for path noCallThru turned off and extname overridden', function (t) {
   var foo = proxyquire('./fixtures/foo', {
     path:{
         extname : function (file) { return 'override ' + file; }

@@ -11,7 +11,7 @@ var test       =  require('tape')
 
 var foober =  proxyquire('./fixtures/foo', { './bar': barber });
 
-test('overriding dep with stub and manipulating stub afterwards', function (t) {
+test('\noverriding dep with stub and manipulating stub afterwards', function (t) {
 
   barber.bar = function () { return 'friseur'; }
   barber.rab = function () { return 'rabarber'; }

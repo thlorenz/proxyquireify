@@ -1,5 +1,29 @@
 'use strict';
 
+function ProxyquireifyError(msg) {
+  this.name = 'ProxyquireifyError';
+  Error.captureStackTrace(this, ProxyquireifyError);
+  this.message = msg || 'An error occurred inside proxyquireify.';
+}
+
+function validateArguments(request, stubs) {
+  var msg = (function getMessage() {
+    if (!request)
+      return 'Missing argument: "request". Need it to resolve desired module.';
+
+    if (!stubs)
+      return 'Missing argument: "stubs". If no stubbing is needed, use regular require instead.';
+
+    if (typeof request != 'string')
+      return 'Invalid argument: "request". Needs to be a requirable string that is the module to load.';
+
+    if (typeof stubs != 'object')
+      return 'Invalid argument: "stubs". Needs to be an object containing overrides e.g., {"path": { extname: function () { ... } } }.';
+  })();
+
+  if (msg) throw new ProxyquireifyError(msg);
+}
+
 var stubs;
 
 function stub(stubs_) { 
@@ -22,6 +46,8 @@ var proxyquire = module.exports = function (require_) {
   reset();
 
   return function(request, stubs) {
+
+    validateArguments(request, stubs);
 
     // set the stubs and require dependency
     // when stub require is invoked by the module under test it will find the stubs here
