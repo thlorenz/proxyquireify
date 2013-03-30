@@ -1,0 +1,28 @@
+{
+    "name" : "foobar",
+    "version" : "0.0.0",
+    "description" : "proxyquireify foobar example",
+    "main" : "foobar.js",
+    "scripts" : {
+        "test" : "node-trap test/*.js"
+    },
+    "repository" : {
+        "type" : "git",
+        "url" : "git://github.com/thlorenz/foobar.git"
+    },
+    "homepage" : "https://github.com/thlorenz/foobar",
+    "dependencies" : {
+      "proxyquireify": "~0.1.0",
+      "browserify": "~2.10.0"
+    },
+    "devDependencies" : {
+    },
+    "keywords": [] ,
+    "author" : {
+        "name" : "Thorsten Lorenz",
+        "email" : "thlorenz@gmx.de",
+        "url" : "http://thlorenz.com"
+    },
+    "license" : "MIT",
+    "engine" : { "node" : ">=0.6" }
+}
