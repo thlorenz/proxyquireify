@@ -1,27 +1,31 @@
 'use strict';
 /*jshint asi: true */
 
-require('browserify');
 var proxyquire =  require('..');
 var vm         =  require('vm');
 
-var src = '';
+function run(name) {
 
-proxyquire.browserify()
-  .transform(proxyquire.transform)
-  .require(require.resolve('..'), { expose: 'proxyquireify' })
-  .require(require.resolve('./independent-overrides'), { entry: true })
-  .bundle()
-  .on('error',  function error(err) { console.error(err); process.exit(1); })
-  .on('data', function (data) { src += data })
-  .on('end', function () {
-    // require('fs').writeFileSync(require.resolve('../example/bundle.js'), src, 'utf-8')
+  var src = '';
 
-    vm.runInNewContext(src, { 
-        setTimeout    :  setTimeout
-      , clearInterval :  clearInterval
-      , console       :  console
-      , window        :  {}
-    } );
-});
+  proxyquire.browserify()
+    .transform(proxyquire.transform)
+    .require(require.resolve('..'), { expose: 'proxyquireify' })
+    .require(require.resolve('./' + name), { entry: true })
+    .bundle()
+    .on('error',  function error(err) { console.error(err); process.exit(1); })
+    .on('data', function (data) { src += data })
+    .on('end', function () {
+      // require('fs').writeFileSync(require.resolve('../example/bundle.js'), src, 'utf-8')
 
+      vm.runInNewContext(src, { 
+          setTimeout    :  setTimeout
+        , clearInterval :  clearInterval
+        , console       :  console
+        , window        :  {}
+      } );
+  });
+}
+
+run('./independent-overrides')
+run('./manipulating-overrides')

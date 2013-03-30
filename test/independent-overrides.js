@@ -12,12 +12,12 @@ var foo    =  proxyquire('./fixtures/foo', { './bar': { } });
 
 require('./fixtures/foo');
 
-console.log('foo.bigBar()', foo.bigBar())
-console.log('foober.bigBar()', foober.bigBar())
-
 test('overriding bar.bar for foober but not for foo', function (t) {
   t.equal(window.foostats.fooRequires(), 3, 'foo is required three times since one for each test and one for require detective')
   t.equal(foo.bigBar(), 'BAR', 'foo.bigBar == BAR')  
   t.equal(foober.bigBar(), 'BARBER', 'foober.bigBar == BARBER');
+
+  t.equal(foober.bigExt('file.ext'), '.EXT', 'does not override bar.ext for foober')
+  t.equal(foober.bigBas('/home/file.ext'), 'FILE.EXT', 'does not override bar.basename for foober')
   t.end()
-});
+})

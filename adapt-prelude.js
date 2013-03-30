@@ -6,7 +6,7 @@ var fs              =  require('fs')
 
 
 // browser-pack reads the prelude via readfile sync so we'll override it here
-// we can swap out what it gets with this little hack
+// this way we can swap out what prelude it gets with this little hack
 var fs_readFileSync = fs.readFileSync;
 fs.readFileSync = function (path) {
   if (path === preludePath) return hack;
