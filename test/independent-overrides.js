@@ -1,16 +1,16 @@
 'use strict';
 /*jshint asi: true, browser: true */
 
+require('./fixtures/foo');
+
 var test       =  require('tape')
-var proxyquire =  require('proxyquireify')(require)
+  , proxyquire =  require('proxyquireify')(require)
   , stats      =  require('./fixtures/stats')
   , barber     =  { bar: function () { return 'barber'; } }
   ;
 
 var foober =  proxyquire('./fixtures/foo', { './bar': barber });
 var foo    =  proxyquire('./fixtures/foo', { './bar': { } });
-
-require('./fixtures/foo');
 
 test('overriding bar.bar for foober but not for foo', function (t) {
   t.equal(window.foostats.fooRequires(), 3, 'foo is required three times since one for each test and one for require detective')

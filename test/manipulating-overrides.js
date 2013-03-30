@@ -1,15 +1,15 @@
 'use strict';
 /*jshint asi: true, browser: true */
 
+require('./fixtures/foo');
+
 var test       =  require('tape')
-var proxyquire =  require('proxyquireify')(require)
+  , proxyquire =  require('proxyquireify')(require)
   , stats      =  require('./fixtures/stats')
   , barber     =  { bar: function () { return 'barber'; } }
   ;
 
 var foober =  proxyquire('./fixtures/foo', { './bar': barber });
-
-require('./fixtures/foo');
 
 test('overriding dep with stub and manipulating stub afterwards', function (t) {
 
@@ -18,5 +18,9 @@ test('overriding dep with stub and manipulating stub afterwards', function (t) {
 
   t.equal(foober.bigBar(), 'FRISEUR', 'overrides previously stubbed func');
   t.equal(foober.bigRab(), 'RABARBER', 'overrides func not previously stubbed');
+
+  barber.bar = undefined;
+
+  t.throws(foober.bigBar, /Property 'bar' of object #<Object> is not a function/, 'returns undefined when I delete an override later')  
   t.end()
 })
