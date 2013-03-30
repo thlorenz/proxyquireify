@@ -7,8 +7,12 @@ overriding dependencies during testing easy while staying **totally unobstrusive
 
 - **no changes to your code** are necessary
 - non overriden methods of a module behave like the original
-- mocking framework agnostic, if it can stub a function then it works with proxyquire
+- mocking framework agnostic, if it can stub a function then it works with proxyquireify
 - "use strict" compliant
+
+## Installation
+
+    npm install proxyquireify
 
 ## Example 
 
@@ -57,13 +61,9 @@ load it in the browser and see:
 
     schokolade ist wirklich wunderbar
 
-## Installation
-
-    npm install proxyquireify
-
 ## API
 
-### `proxyquire.browserify()`
+### proxyquire.browserify()
 
 To be used in build script instead of `browserify()`, autmatically adapts browserify to work for tests and injects
 require overrides into all modules via a browserify transform.
@@ -75,7 +75,7 @@ proxyquire.browserify()
   .pipe(fs.createWriteStream(__dirname + '/bundle.js'));
 ```
 
-### `proxyquire(request: String, stubs: Object)`
+### proxyquire(request: String, stubs: Object)
 
 - **request**: path to the module to be tested e.g., `../lib/foo`
 - **stubs**: key/value pairs of the form `{ modulePath: stub, ... }`
@@ -94,7 +94,7 @@ var barStub    =  { wunder: function () { 'really wonderful'; } };
 
 var foo = proxyquire('./foo', { './bar': barStub })
 ```
-### `noCallThru`
+### noCallThru
 
 By default proxyquire calls the function defined on the *original* dependency whenever it is not found on the stub.
 
