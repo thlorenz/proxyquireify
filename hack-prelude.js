@@ -1,7 +1,7 @@
 'use strict';
 var fs              =  require('fs')
   , preludePath     =  require.resolve('browserify/node_modules/browser-pack/prelude')
-  , preludeHackPath =  require.resolve('./prelude-hack')
+  , preludeHackPath =  require.resolve('./prelude')
   , hack            =  fs.readFileSync(preludeHackPath, 'utf-8');
 
 

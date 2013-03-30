@@ -52,4 +52,4 @@ proxyquire.proxy =  function (require_) {
 };
 
 // below only used during build
-proxyquire.browserify =  require('./adapt-prelude').browserify;
+proxyquire.browserify =  require('./hack-prelude').browserify;

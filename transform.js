@@ -8,7 +8,7 @@ var through = require('through')
     ;
 
 [ __filename
-, require.resolve('./adapt-prelude')
+, require.resolve('./hack-prelude')
 , require.resolve('browserify')
 ].forEach(function (k) { excludes[k] = true; });
 
