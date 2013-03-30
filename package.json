@@ -1,7 +1,7 @@
 {
   "name": "proxyquireify",
   "version": "0.0.0",
-  "description": "browserify version of proxyquire. Mocks out browserify's require to allow stubbing out dependencies while testing",
+  "description": "Proxies browserify's require in order to allow overriding dependencies during testing.",
   "main": "proxyquireify.js",
   "scripts": {
     "test": "node test/run.js"
