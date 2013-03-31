@@ -13,8 +13,8 @@ test('multiple proxyquires with different names', function (t) {
 })
 
 test('one proxyquire in actual test', function (t) {
-  var src = fs.readFileSync(require.resolve('./independent-overrides'), 'utf-8');
+  var src = fs.readFileSync(require.resolve('./clientside/independent-overrides'), 'utf-8');
   var deps = findDependencies(src)
-  t.deepEqual(deps, ['./fixtures/foo'], 'finds dependency')
+  t.deepEqual(deps, ['../fixtures/foo'], 'finds dependency')
   t.end()
 })

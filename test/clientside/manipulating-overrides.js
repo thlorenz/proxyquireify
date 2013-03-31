@@ -3,11 +3,10 @@
 
 var test       =  require('tape')
   , proxyquire =  require('proxyquireify')(require)
-  , stats      =  require('./fixtures/stats')
   , barber     =  { bar: function () { return 'barber'; } }
   ;
 
-var foober =  proxyquire('./fixtures/foo', { './bar': barber });
+var foober =  proxyquire('../fixtures/foo', { './bar': barber });
 
 test('\noverriding dep with stub and manipulating stub afterwards', function (t) {
 

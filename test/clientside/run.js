@@ -1,7 +1,7 @@
 'use strict';
 /*jshint asi: true */
 
-var proxyquire =  require('..');
+var proxyquire =  require('../..');
 var vm         =  require('vm');
 
 function run(name) {
@@ -9,13 +9,13 @@ function run(name) {
   var src = '';
 
   proxyquire.browserify()
-    .require(require.resolve('..'), { expose: 'proxyquireify' })
+    .require(require.resolve('../..'), { expose: 'proxyquireify' })
     .require(require.resolve('./' + name), { entry: true })
     .bundle()
     .on('error',  function error(err) { console.error(err); process.exit(1); })
     .on('data', function (data) { src += data })
     .on('end', function () {
-      // require('fs').writeFileSync(require('path').join(__dirname, '../examples/bundle.js'), src, 'utf-8')
+      // require('fs').writeFileSync(require('path').join(__dirname, '../../examples/bundle.js'), src, 'utf-8')
 
       vm.runInNewContext(src, { 
           setTimeout    :  setTimeout
