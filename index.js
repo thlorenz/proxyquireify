@@ -43,6 +43,12 @@ function fillMissingKeys(mdl, original) {
 }
 
 var proxyquire = module.exports = function (require_) {
+  if (typeof require_ != 'function')
+    throw new ProxyquireifyError( 
+        'It seems like you didn\'t initialize proxyquireify with the require in your test.\n'
+      + 'Make sure to correct this, i.e.: "var proxyquire = require(\'proxyquireify\')(require);"'
+    );
+
   reset();
 
   return function(request, stubs) {
