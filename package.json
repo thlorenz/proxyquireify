@@ -4,7 +4,7 @@
   "description": "Proxies browserify's require in order to allow overriding dependencies during testing.",
   "main": "proxyquireify.js",
   "scripts": {
-    "test": "node test/run.js"
+    "test": "tape test/find-dependencies.js && node test/run.js"
   },
   "repository": {
     "type": "git",

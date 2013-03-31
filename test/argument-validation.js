@@ -1,8 +1,6 @@
 'use strict';
 /*jshint asi: true, browser: true */
 
-require('./fixtures/foo');
-
 var test       =  require('tape')
   , proxyquire =  require('proxyquireify')(require)
   , bar = { bar: function () { return 'bar'; } }
