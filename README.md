@@ -4,12 +4,26 @@ browserify v2 version of [proxyquire](https://github.com/thlorenz/proxyquire).
 
 Proxies browserify's require in order to make overriding dependencies during testing easy while staying **totally unobstrusive**.
 
+**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+
+- [Features](#features)
+- [Installation](#installation)
+- [Example](#example)
+- [API](#api)
+  - [proxyquire.browserify()](#proxyquirebrowserify)
+  - [proxyquire(request: String, stubs: Object)](#proxyquirerequest:-string-stubs:-object)
+    - [Important Magic](#important-magic)
+  - [noCallThru](#nocallthru)
+- [More Examples](#more-examples)
+
 ## Features
 
 - **no changes to your code** are necessary
 - non overriden methods of a module behave like the original
 - mocking framework agnostic, if it can stub a function then it works with proxyquireify
 - "use strict" compliant
+- [automatic injection](https://github.com/thlorenz/proxyquireify#important-magic) of `require` calls to ensure the
+  module you are testing gets bundled 
 
 ## Installation
 
