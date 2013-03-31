@@ -3,7 +3,7 @@
 
 var test             =  require('tape')
   , fs               =  require('fs')
-  , findDependencies =  require('../find-dependencies')
+  , findDependencies =  require('../lib/find-dependencies')
 
 test('multiple proxyquires with different names', function (t) {
   var src = fs.readFileSync(require.resolve('./fixtures/dependencies'), 'utf-8');

@@ -79,6 +79,6 @@ proxyquire.proxy =  function (require_) {
 
 if (require.cache) {
   // only used during build, so prevent browserify from including it
-  var hackPrelude = './hack-prelude';
+  var hackPrelude = './lib/hack-prelude';
   proxyquire.browserify = require(hackPrelude).browserify;
 }
