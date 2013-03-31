@@ -12,7 +12,8 @@
   },
   "homepage": "https://github.com/thlorenz/proxyquireify",
   "dependencies": {
-    "through": "~2.2.7"
+    "through": "~2.2.7",
+    "detective": "~2.1.0"
   },
   "devDependencies": {
     "tape": "~0.3.2",
