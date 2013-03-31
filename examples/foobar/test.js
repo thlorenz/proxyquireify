@@ -1,6 +1,4 @@
 'use strict';
-// make browerify include foo
-require('./src/foo');
 
 var proxyquire = require('proxyquireify')(require);
 
