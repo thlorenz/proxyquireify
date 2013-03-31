@@ -1,7 +1,8 @@
 # proxyquireify [![build status](https://secure.travis-ci.org/thlorenz/proxyquireify.png)](http://travis-ci.org/thlorenz/proxyquireify)
 
-browserify version of [proxyquire](https://github.com/thlorenz/proxyquire). Proxies browserify's require in order to make
-overriding dependencies during testing easy while staying **totally unobstrusive**.
+browserify v2 version of [proxyquire](https://github.com/thlorenz/proxyquire). 
+
+Proxies browserify's require in order to make overriding dependencies during testing easy while staying **totally unobstrusive**.
 
 ## Features
 
@@ -83,20 +84,22 @@ proxyquire.browserify()
   - therefore specify it exactly as in the require statement inside the tested file
   - values themselves are key/value pairs of functions/properties and the appropriate override
 
-**Important**: In order for browserify to include the module you are testing in the bundle you currently have to
-`require` it as well as seen in the following example.
-
 ```js
-require('./src/foo'); // make browserify include foo in the bundle
-
 var proxyquire =  require('proxyquireify')(require);
 var barStub    =  { wunder: function () { 'really wonderful'; } };
 
 var foo = proxyquire('./foo', { './bar': barStub })
 ```
+
+#### Important Magic 
+
+In order for browserify to include the module you are testing in the bundle, proxyquireify will inject a
+`require()` call for every module you are proxyquireing. So in the above example `require('./foo')` will be injected at
+the top of your test file.
+
 ### noCallThru
 
-By default proxyquire calls the function defined on the *original* dependency whenever it is not found on the stub.
+By default proxyquireify calls the function defined on the *original* dependency whenever it is not found on the stub.
 
 If you prefer a more strict behavior you can prevent *callThru* on a per module or per stub basis.
 
