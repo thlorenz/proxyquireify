@@ -44,9 +44,6 @@ module.exports = function () {
 **foo.test.js**:
 
 ```js
-// This require needs to be called in order for browserify to include it in the bundle
-require('./src/foo');
-
 var proxyquire = require('proxyquireify')(require);
 
 var stubs = { 
