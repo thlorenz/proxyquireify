@@ -20,7 +20,17 @@
     "mold-source-map": "~0.2.0",
     "browserify": "~2.10.2"
   },
-  "keywords": [],
+  "keywords": [
+    "require",
+    "dependency",
+    "test",
+    "mock",
+    "stub",
+    "proxyquire",
+    "browser",
+    "browserify",
+    "client"
+  ],
   "author": {
     "name": "Thorsten Lorenz",
     "email": "thlorenz@gmx.de",
