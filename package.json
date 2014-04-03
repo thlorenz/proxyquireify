@@ -13,11 +13,11 @@
   "homepage": "https://github.com/thlorenz/proxyquireify",
   "dependencies": {
     "detective": "~2.1.0",
-    "tap": "^0.4.8",
     "through": "~2.2.7"
   },
   "devDependencies": {
     "tape": "~0.3.2",
+    "tap": "~0.4.8",
     "mold-source-map": "~0.2.0",
     "browserify": "~2.10.2"
   },
