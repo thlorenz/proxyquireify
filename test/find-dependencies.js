@@ -1,7 +1,7 @@
 'use strict';
 /*jshint asi: true */
 
-var test             =  require('tape')
+var test             =  require('tap').test
   , fs               =  require('fs')
   , findDependencies =  require('../lib/find-dependencies')
 
