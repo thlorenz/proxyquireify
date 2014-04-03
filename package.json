@@ -19,7 +19,7 @@
   "devDependencies": {
     "tape": "~0.3.2",
     "mold-source-map": "~0.2.0",
-    "browserify": "~2.10.2"
+    "browserify": "~3.38.0"
   },
   "keywords": [
     "require",
