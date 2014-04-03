@@ -1,6 +1,6 @@
 {
   "name": "proxyquireify",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "description": "Proxies browserify's require in order to allow overriding dependencies during testing.",
   "main": "proxyquireify.js",
   "scripts": {
