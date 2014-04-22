@@ -12,14 +12,14 @@
   },
   "homepage": "https://github.com/thlorenz/proxyquireify",
   "dependencies": {
-    "detective": "~2.1.0",
+    "detective": "~3.1.0",
     "through": "~2.2.7"
   },
   "devDependencies": {
-    "tape": "~0.3.2",
-    "tap": "~0.4.8",
+    "browserify": "~3.44.2",
     "mold-source-map": "~0.2.0",
-    "browserify": "~3.38.0"
+    "tap": "~0.4.8",
+    "tape": "~0.3.2"
   },
   "keywords": [
     "require",
