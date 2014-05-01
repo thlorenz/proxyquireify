@@ -41,15 +41,20 @@ function reset() {
 
 function fillMissingKeys(mdl, original) {
   Object.keys(original).forEach(function (key) {
-    if (!mdl[key])  mdl[key] = original[key];
+    if (!mdl[key]) mdl[key] = original[key];
   });
+  if (typeof mdl === 'function' && typeof original === 'function') {
+      Object.keys(original.prototype).forEach(function (key) {
+          if (!mdl.prototype[key]) mdl.prototype[key] = original.prototype[key];
+      });
+  }
 
   return mdl;
 }
 
 var proxyquire = module.exports = function (require_) {
   if (typeof require_ != 'function')
-    throw new ProxyquireifyError( 
+    throw new ProxyquireifyError(
         'It seems like you didn\'t initialize proxyquireify with the require in your test.\n'
       + 'Make sure to correct this, i.e.: "var proxyquire = require(\'proxyquireify\')(require);"'
     );
