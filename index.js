@@ -26,25 +26,35 @@ function validateArguments(request, stubs) {
 
 var stubs;
 
-function stub(stubs_) { 
-  stubs = stubs_; 
+function stub(stubs_) {
+  stubs = stubs_;
+  // This cache is used by the prelude as an alternative to the regular cache.
+  // It is not read or written here, except to set it to an empty object when
+  // adding stubs and to reset it to null when clearing stubs.
+  module.exports._cache = {};
 }
 
-function reset() { 
-  stubs = undefined; 
+function reset() {
+  stubs = undefined;
+  module.exports._cache = null;
 }
 
 function fillMissingKeys(mdl, original) {
   Object.keys(original).forEach(function (key) {
-    if (!mdl[key])  mdl[key] = original[key];
+    if (!mdl[key]) mdl[key] = original[key];
   });
+  if (typeof mdl === 'function' && typeof original === 'function') {
+      Object.keys(original.prototype).forEach(function (key) {
+          if (!mdl.prototype[key]) mdl.prototype[key] = original.prototype[key];
+      });
+  }
 
   return mdl;
 }
 
 var proxyquire = module.exports = function (require_) {
   if (typeof require_ != 'function')
-    throw new ProxyquireifyError( 
+    throw new ProxyquireifyError(
         'It seems like you didn\'t initialize proxyquireify with the require in your test.\n'
       + 'Make sure to correct this, i.e.: "var proxyquire = require(\'proxyquireify\')(require);"'
     );
@@ -65,26 +75,29 @@ var proxyquire = module.exports = function (require_) {
   };
 };
 
-proxyquire.proxy =  function (require_) {
-  return function (request) {
-    function original() {
-      return require_(request);
-    }
+// Start with the default cache
+proxyquire._cache = null;
 
-    if (!stubs) return original();
+proxyquire._proxy = function (require_, request) {
+  function original() {
+    return require_(request);
+  }
 
-    var stub = stubs[request];
+  if (!stubs) return original();
 
-    if (!stub) return original();
+  var stub = stubs[request];
 
-    var stubWideNoCallThru = !!stubs['@noCallThru'] && stub['@noCallThru'] !== false;
-    var noCallThru = stubWideNoCallThru || !!stub['@noCallThru'];
-    return noCallThru ? stub : fillMissingKeys(stub, original());
-  };
+  if (!stub) return original();
+
+  var stubWideNoCallThru = !!stubs['@noCallThru'] && stub['@noCallThru'] !== false;
+  var noCallThru = stubWideNoCallThru || !!stub['@noCallThru'];
+  return noCallThru ? stub : fillMissingKeys(stub, original());
 };
 
 if (require.cache) {
   // only used during build, so prevent browserify from including it
-  var hackPrelude = './lib/hack-prelude';
-  proxyquire.browserify = require(hackPrelude).browserify;
+  var hackPreludePath = './lib/hack-prelude';
+  var hackPrelude = require(hackPreludePath);
+  proxyquire.browserify = hackPrelude.browserify;
+  proxyquire.plugin = hackPrelude.plugin;
 }

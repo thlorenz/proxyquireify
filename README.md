@@ -87,6 +87,28 @@ proxyquire.browserify()
   .pipe(fs.createWriteStream(__dirname + '/bundle.js'));
 ```
 
+### proxyquire.plugin()
+
+Instead of being used instead of `browserify()`, proxyquireify can also be used as a browserify plugin.
+
+```js
+var browserify = require('browserify');
+var proxyquire = require('proxyquireify');
+
+browserify()
+  .plugin(proxyquire.plugin)
+  .require(require.resolve('./test'), { entry: true })
+  .bundle()
+  .pipe(fs.createWriteStream(__dirname + '/bundle.js'));
+```
+
+The plugin is also exported from the file plugin.js so that you can use proxyquireify when running browserify
+from the command line.
+
+```sh
+browserify -p proxyquireify/plugin test.js > bundle.js
+```
+
 ### proxyquire(request: String, stubs: Object)
 
 - **request**: path to the module to be tested e.g., `../lib/foo`
