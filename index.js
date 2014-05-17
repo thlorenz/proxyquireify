@@ -26,12 +26,17 @@ function validateArguments(request, stubs) {
 
 var stubs;
 
-function stub(stubs_) { 
-  stubs = stubs_; 
+function stub(stubs_) {
+  stubs = stubs_;
+  // This cache is used by the prelude as an alternative to the regular cache.
+  // It is not read or written here, except to set it to an empty object when
+  // adding stubs and to reset it to null when clearing stubs.
+  module.exports._cache = {};
 }
 
-function reset() { 
-  stubs = undefined; 
+function reset() {
+  stubs = undefined;
+  module.exports._cache = null;
 }
 
 function fillMissingKeys(mdl, original) {
@@ -65,22 +70,23 @@ var proxyquire = module.exports = function (require_) {
   };
 };
 
-proxyquire.proxy =  function (require_) {
-  return function (request) {
-    function original() {
-      return require_(request);
-    }
+// Start with the default cache
+proxyquire._cache = null;
 
-    if (!stubs) return original();
+proxyquire._proxy = function (require_, request) {
+  function original() {
+    return require_(request);
+  }
 
-    var stub = stubs[request];
+  if (!stubs) return original();
 
-    if (!stub) return original();
+  var stub = stubs[request];
 
-    var stubWideNoCallThru = !!stubs['@noCallThru'] && stub['@noCallThru'] !== false;
-    var noCallThru = stubWideNoCallThru || !!stub['@noCallThru'];
-    return noCallThru ? stub : fillMissingKeys(stub, original());
-  };
+  if (!stub) return original();
+
+  var stubWideNoCallThru = !!stubs['@noCallThru'] && stub['@noCallThru'] !== false;
+  var noCallThru = stubWideNoCallThru || !!stub['@noCallThru'];
+  return noCallThru ? stub : fillMissingKeys(stub, original());
 };
 
 if (require.cache) {
