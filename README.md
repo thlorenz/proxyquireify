@@ -1,6 +1,6 @@
 # proxyquireify [![build status](https://secure.travis-ci.org/thlorenz/proxyquireify.png)](http://travis-ci.org/thlorenz/proxyquireify)
 
-browserify v2 version of [proxyquire](https://github.com/thlorenz/proxyquire). 
+browserify `>= v2` version of [proxyquire](https://github.com/thlorenz/proxyquire). 
 
 Proxies browserify's require in order to make overriding dependencies during testing easy while staying **totally unobstrusive**.
 
