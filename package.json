@@ -16,7 +16,7 @@
     "through": "~2.2.7"
   },
   "devDependencies": {
-    "browserify": "~3.44.2",
+    "browserify": "~4.1.5",
     "mold-source-map": "~0.2.0",
     "tap": "~0.4.8",
     "tape": "~2.12.3"
@@ -30,6 +30,7 @@
     "proxyquire",
     "browser",
     "browserify",
+    "browserify-tool",
     "client"
   ],
   "author": {
@@ -42,6 +43,6 @@
     "node": ">=0.6"
   },
   "peerDependencies": {
-    "browserify": ">= 3.0.0 < 4"
+    "browserify": ">= 3.0.0 < 5"
   }
 }

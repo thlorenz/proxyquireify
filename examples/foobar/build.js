@@ -1,9 +1,10 @@
-var fs         =  require('fs')
-  , proxyquire =  require('proxyquireify')
+var fs         = require('fs')
+  , proxyquire = require('proxyquireify')
+  , browserify = require('browserify')
   ;
 
-proxyquire.browserify()
+browserify()
+  .plugin(proxyquire.plugin)
   .require(require.resolve('./test'), { entry: true })
   .bundle({ debug: true })
-  .pipe(require('mold-source-map').transformSourcesRelativeTo(__dirname))
   .pipe(fs.createWriteStream(__dirname + '/bundle.js'));

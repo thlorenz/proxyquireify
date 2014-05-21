@@ -4,23 +4,30 @@ browserify v2 version of [proxyquire](https://github.com/thlorenz/proxyquire).
 
 Proxies browserify's require in order to make overriding dependencies during testing easy while staying **totally unobstrusive**.
 
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 **Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
 
 - [Features](#features)
 - [Installation](#installation)
 - [Example](#example)
 - [API](#api)
+  - [proxyquire.plugin()](#proxyquireplugin)
   - [proxyquire.browserify()](#proxyquirebrowserify)
-  - [proxyquire(request: String, stubs: Object)](#proxyquirerequest:-string-stubs:-object)
+    - [Deprecation Warning](#deprecation-warning)
+  - [proxyquire(request: String, stubs: Object)](#proxyquirerequest-string-stubs-object)
     - [Important Magic](#important-magic)
   - [noCallThru](#nocallthru)
 - [More Examples](#more-examples)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
 
 ## Features
 
 - **no changes to your code** are necessary
 - non overriden methods of a module behave like the original
-- mocking framework agnostic, if it can stub a function then it works with proxyquireify
+- mocking framework agnostic, if it can stub a function then it works with **proxyquireify**
 - "use strict" compliant
 - [automatic injection](https://github.com/thlorenz/proxyquireify#important-magic) of `require` calls to ensure the
   module you are testing gets bundled 
@@ -61,11 +68,13 @@ console.log(foo());
 **browserify.build.js**:
 
 ```js
+var browserify = require('browserify');
 var proxyquire = require('proxyquireify');
 
-proxyquire.browserify()
+browserify()
+  .plugin(proxyquire.plugin)
   .require(require.resolve('./foo.test'), { entry: true })
-  .bundle({ debug: true })
+  .bundle()
   .pipe(fs.createWriteStream(__dirname + '/bundle.js'));
 ```
 
@@ -75,21 +84,9 @@ load it in the browser and see:
 
 ## API
 
-### proxyquire.browserify()
-
-To be used in build script instead of `browserify()`, autmatically adapts browserify to work for tests and injects
-require overrides into all modules via a browserify transform.
-
-```js
-proxyquire.browserify()
-  .require(require.resolve('./test'), { entry: true })
-  .bundle()
-  .pipe(fs.createWriteStream(__dirname + '/bundle.js'));
-```
-
 ### proxyquire.plugin()
 
-Instead of being used instead of `browserify()`, proxyquireify can also be used as a browserify plugin.
+**proxyquireify** functions as a browserify plugin and needs to be registered with browserify like so:
 
 ```js
 var browserify = require('browserify');
@@ -102,12 +99,34 @@ browserify()
   .pipe(fs.createWriteStream(__dirname + '/bundle.js'));
 ```
 
-The plugin is also exported from the file plugin.js so that you can use proxyquireify when running browserify
-from the command line.
+Alternatively you can register **proxyquireify** as a plugin from the command line like so:
 
 ```sh
 browserify -p proxyquireify/plugin test.js > bundle.js
 ```
+
+### proxyquire.browserify()
+
+#### Deprecation Warning
+
+This API to setup **proxyquireify** was used prior to [browserify plugin](https://github.com/substack/node-browserify#bpluginplugin-opts) support.
+
+It has not been removed yet to make upgrading **proxyquireify** easier for now, but it **will be deprecated in future
+versions**. Please consider using the plugin API (above) instead.
+
+****
+
+To be used in build script instead of `browserify()`, autmatically adapts browserify to work for tests and injects
+require overrides into all modules via a browserify transform.
+
+```js
+proxyquire.browserify()
+  .require(require.resolve('./test'), { entry: true })
+  .bundle()
+  .pipe(fs.createWriteStream(__dirname + '/bundle.js'));
+```
+
+****
 
 ### proxyquire(request: String, stubs: Object)
 
@@ -126,13 +145,13 @@ var foo = proxyquire('./foo', { './bar': barStub })
 
 #### Important Magic 
 
-In order for browserify to include the module you are testing in the bundle, proxyquireify will inject a
+In order for browserify to include the module you are testing in the bundle, **proxyquireify** will inject a
 `require()` call for every module you are proxyquireing. So in the above example `require('./foo')` will be injected at
 the top of your test file.
 
 ### noCallThru
 
-By default proxyquireify calls the function defined on the *original* dependency whenever it is not found on the stub.
+By default **proxyquireify** calls the function defined on the *original* dependency whenever it is not found on the stub.
 
 If you prefer a more strict behavior you can prevent *callThru* on a per module or per stub basis.
 
