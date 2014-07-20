@@ -30,6 +30,7 @@
     "proxyquire",
     "browser",
     "browserify",
+    "browserify-plugin",
     "browserify-tool",
     "client"
   ],
