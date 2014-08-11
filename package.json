@@ -13,10 +13,12 @@
   "homepage": "https://github.com/thlorenz/proxyquireify",
   "dependencies": {
     "detective": "~3.1.0",
-    "through": "~2.2.7"
+    "through": "~2.2.7",
+    "browser-pack": "^3.0.0",
+    "xtend": "^3.0.0"
   },
   "devDependencies": {
-    "browserify": "~4.1.5",
+    "browserify": "~5.1.0",
     "mold-source-map": "~0.2.0",
     "tap": "~0.4.8",
     "tape": "~2.12.3"
@@ -43,6 +45,6 @@
     "node": ">=0.6"
   },
   "peerDependencies": {
-    "browserify": ">= 3.0.0 < 5"
+    "browserify": ">=5.1.0"
   }
 }
