@@ -1,6 +1,7 @@
 'use strict';
 /*jshint asi: true */
 
+var browserify =  require('browserify');
 var proxyquire =  require('../..');
 var vm         =  require('vm');
 
@@ -8,7 +9,8 @@ function run(name) {
 
   var src = '';
 
-  proxyquire.browserify()
+  browserify()
+    .plugin(proxyquire.plugin)
     .require(require.resolve('../..'), { expose: 'proxyquireify' })
     .require(require.resolve('./' + name), { entry: true })
     .bundle()
