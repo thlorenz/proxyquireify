@@ -36,6 +36,8 @@ Proxies browserify's require in order to make overriding dependencies during tes
 
     npm install proxyquireify
 
+To use with browserify `< 5.1` please `npm install proxyquireify@0.5` instead.
+
 ## Example 
 
 **foo.js**:
