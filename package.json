@@ -33,6 +33,7 @@
     "browser",
     "browserify",
     "browserify-tool",
+    "browserify-plugin",
     "client"
   ],
   "author": {
