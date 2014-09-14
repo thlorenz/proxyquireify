@@ -3,8 +3,8 @@ var fs         = require('fs')
   , browserify = require('browserify')
   ;
 
-browserify()
+browserify({ debug: true })
   .plugin(proxyquire.plugin)
   .require(require.resolve('./test'), { entry: true })
-  .bundle({ debug: true })
+  .bundle()
   .pipe(fs.createWriteStream(__dirname + '/bundle.js'));
