@@ -1,4 +1,4 @@
-# proxyquireify [![build status](https://secure.travis-ci.org/thlorenz/proxyquireify.png)](http://travis-ci.org/thlorenz/proxyquireify)
+# proxyquireify [![build status](https://secure.travis-ci.org/thlorenz/proxyquireify.svg?branch=master)](http://travis-ci.org/thlorenz/proxyquireify)
 
 browserify `>= v2` version of [proxyquire](https://github.com/thlorenz/proxyquire). 
 
