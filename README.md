@@ -2,7 +2,7 @@
 
 browserify `>= v2` version of [proxyquire](https://github.com/thlorenz/proxyquire). 
 
-Proxies browserify's require in order to make overriding dependencies during testing easy while staying **totally unobstrusive**.
+Proxies browserify's require in order to make overriding dependencies during testing easy while staying **totally unobstrusive**. To run your tests in both Node and the browser, use [proxyquire-universal](https://github.com/bendrucker/proxyquire-universal).
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
