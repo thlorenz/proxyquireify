@@ -12,9 +12,10 @@
   },
   "homepage": "https://github.com/thlorenz/proxyquireify",
   "dependencies": {
-    "detective": "~3.1.0",
-    "through": "~2.2.7",
     "browser-pack": "^3.0.0",
+    "detective": "~3.1.0",
+    "has-require": "^1.1.0",
+    "through": "~2.2.7",
     "xtend": "^3.0.0"
   },
   "devDependencies": {
