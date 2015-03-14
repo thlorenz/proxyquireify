@@ -6,11 +6,12 @@ Proxies browserify's require in order to make overriding dependencies during tes
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
-**Table of Contents**  *generated with [DocToc](http://doctoc.herokuapp.com/)*
+**Table of Contents**  *generated with [DocToc](https://github.com/thlorenz/doctoc)*
 
 - [Features](#features)
 - [Installation](#installation)
 - [Example](#example)
+- [With Other Transforms](#with-other-transforms)
 - [API](#api)
   - [proxyquire.plugin()](#proxyquireplugin)
   - [proxyquire.browserify()](#proxyquirebrowserify)
@@ -83,6 +84,21 @@ browserify()
 load it in the browser and see:
 
     schokolade ist wirklich wunderbar
+
+## With Other Transforms
+
+If you're transforming your source code to JavaScript, you must apply those transforms before applying the proxyquireify plugin:
+
+```js
+browserify()
+  .transform('coffeeify')
+  .plugin(proxyquire.plugin)
+  .require(require.resolve('./test.coffee'), { entry: true })
+  .bundle()
+  .pipe(fs.createWriteStream(__dirname + '/bundle.js'));
+```
+
+proxyquireify needs to parse your code looking for `require` statements. If you `require` anything that's not valid JavaScript that [acorn](https://github.com/marijnh/acorn) can parse (e.g. CoffeeScript, TypeScript), you need to make sure the relevant transform runs before proxyquireify.
 
 ## API
 
