@@ -1,5 +1,8 @@
 'use strict';
 
+var keys = require('amp-keys');
+var each = require('amp-each');
+
 function ProxyquireifyError(msg) {
   this.name = 'ProxyquireifyError';
   Error.captureStackTrace(this, ProxyquireifyError);
@@ -40,11 +43,11 @@ function reset() {
 }
 
 function fillMissingKeys(mdl, original) {
-  Object.keys(original).forEach(function (key) {
+  each(keys(original), function (key) {
     if (!mdl[key]) mdl[key] = original[key];
   });
   if (typeof mdl === 'function' && typeof original === 'function') {
-      Object.keys(original.prototype).forEach(function (key) {
+      each(keys(original.prototype), function (key) {
           if (!mdl.prototype[key]) mdl.prototype[key] = original.prototype[key];
       });
   }

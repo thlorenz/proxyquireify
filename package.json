@@ -12,6 +12,8 @@
   },
   "homepage": "https://github.com/thlorenz/proxyquireify",
   "dependencies": {
+    "amp-each": "^1.0.1",
+    "amp-keys": "^1.0.1",
     "browser-pack": "^3.0.0",
     "detective": "~3.1.0",
     "has-require": "^1.1.0",
