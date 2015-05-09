@@ -22,6 +22,7 @@ function run(name) {
       vm.runInNewContext(src, { 
           setTimeout    :  setTimeout
         , clearInterval :  clearInterval
+        , clearTimeout  :  clearTimeout
         , console       :  console
         , window        :  {}
       } );
