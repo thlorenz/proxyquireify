@@ -4,7 +4,8 @@
   "description": "Proxies browserify's require in order to allow overriding dependencies during testing.",
   "main": "index.js",
   "scripts": {
-    "test": "tap test/*.js && node test/clientside/run.js"
+    "test": "test-peer-range browserify",
+    "test-main": "tap test/*.js && node test/clientside/run.js"
   },
   "repository": {
     "type": "git",
@@ -22,7 +23,8 @@
     "browserify": "^10.0.0",
     "mold-source-map": "~0.2.0",
     "tap": "~0.4.8",
-    "tape": "~2.12.3"
+    "tape": "~2.12.3",
+    "test-peer-range": "^1.0.1"
   },
   "keywords": [
     "require",
