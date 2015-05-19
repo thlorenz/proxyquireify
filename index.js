@@ -1,5 +1,7 @@
 'use strict';
 
+var fillMissingKeys = require('fill-keys');
+
 function ProxyquireifyError(msg) {
   this.name = 'ProxyquireifyError';
   Error.captureStackTrace(this, ProxyquireifyError);
@@ -37,19 +39,6 @@ function stub(stubs_) {
 function reset() {
   stubs = undefined;
   module.exports._cache = null;
-}
-
-function fillMissingKeys(mdl, original) {
-  Object.keys(original).forEach(function (key) {
-    if (!mdl[key]) mdl[key] = original[key];
-  });
-  if (typeof mdl === 'function' && typeof original === 'function') {
-      Object.keys(original.prototype).forEach(function (key) {
-          if (!mdl.prototype[key]) mdl.prototype[key] = original.prototype[key];
-      });
-  }
-
-  return mdl;
 }
 
 var proxyquire = module.exports = function (require_) {
