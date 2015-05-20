@@ -1,8 +1,7 @@
 'use strict';
 /*jshint asi: true, browser: true */
 
-var test       =  require('tape')
-  , proxyquire =  require('proxyquireify')(require)
+var proxyquire =  require('proxyquireify')(require)
   , stats      =  require('../fixtures/stats')
   , barber     =  { bar: function () { return 'barber'; } }
   ;

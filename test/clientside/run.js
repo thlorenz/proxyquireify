@@ -4,6 +4,7 @@
 var browserify =  require('browserify');
 var proxyquire =  require('../..');
 var vm         =  require('vm');
+var test       =  require('tape');
 
 function run(name) {
 
@@ -18,14 +19,9 @@ function run(name) {
     .on('data', function (data) { src += data })
     .on('end', function () {
       // require('fs').writeFileSync(require('path').join(__dirname, '../../examples/bundle.js'), src, 'utf-8')
-
-      vm.runInNewContext(src, { 
-          setTimeout    :  setTimeout
-        , clearInterval :  clearInterval
-        , clearTimeout  :  clearTimeout
-        , console       :  console
-        , window        :  {}
-      } );
+      test(name, function(t) {
+        vm.runInNewContext(src, { test: t.test.bind(t), window: {} });
+      })
   });
 }
 
