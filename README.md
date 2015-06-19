@@ -37,7 +37,7 @@ Proxies browserify's require in order to make overriding dependencies during tes
 
     npm install proxyquireify
 
-To use with browserify `< 5.1` please `npm install proxyquireify@0.5` instead.
+To use with browserify `< 5.1` please `npm install proxyquireify@0.5` instead. To run your tests in PhantomJS, you may need to [use a shim](https://github.com/bendrucker/phantom-ownpropertynames).
 
 ## Example 
 
