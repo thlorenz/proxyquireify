@@ -10,7 +10,7 @@ var foober =  proxyquire('../fixtures/foo', { './bar': barber });
 var foo    =  proxyquire('../fixtures/foo', { './bar': { } });
 
 test('\noverriding bar.bar for foober but not for foo', function (t) {
-  t.equal(window.foostats.fooRequires(), 3, 'foo is required three times since one for each test and one for require detective')
+  t.equal(window.foostats.fooRequires(), 2, 'foo is required three times since one for each test and one for require detective')
   t.equal(foo.bigBar(), 'BAR', 'foo.bigBar == BAR')  
   t.equal(foober.bigBar(), 'BARBER', 'foober.bigBar == BARBER');
 
