@@ -49,6 +49,7 @@ var clientTests = [
   , 'manipulating-overrides'
   , 'noCallThru'
   , 'argument-validation'
+  , 'require-in-method'
 ];
 
 compileAll(clientTests, function (err, results) {
