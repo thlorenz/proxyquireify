@@ -50,7 +50,7 @@ var proxyquire = module.exports = function (require_) {
 
   reset();
 
-  return function(request, stubs) {
+  var prxCall = function(request, stubs) {
 
     validateArguments(request, stubs);
 
@@ -58,11 +58,15 @@ var proxyquire = module.exports = function (require_) {
     // when stub require is invoked by the module under test it will find the stubs here
     stub(stubs);
     var dep = require_(request);
-    reset();
+    //reset();
 
     return dep;
   };
+
+  prxCall.reset = reset;
+  return prxCall;
 };
+
 
 // Start with the default cache
 proxyquire._cache = null;
