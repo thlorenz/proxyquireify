@@ -26,7 +26,8 @@
     "mold-source-map": "~0.2.0",
     "tap": "~0.4.8",
     "tape": "~2.12.3",
-    "test-peer-range": "^1.0.1"
+    "test-peer-range": "^1.0.1",
+    "watchify": "^3.6.1"
   },
   "keywords": [
     "require",
