@@ -1,6 +1,7 @@
 'use strict';
 
 var fillMissingKeys = require('fill-keys');
+var moduleNotFoundError = require('module-not-found-error');
 
 function ProxyquireifyError(msg) {
   this.name = 'ProxyquireifyError';
@@ -72,11 +73,11 @@ proxyquire._proxy = function (require_, request) {
     return require_(request);
   }
 
-  if (!stubs) return original();
+  if (!stubs || !stubs.hasOwnProperty(request)) return original();
 
   var stub = stubs[request];
 
-  if (!stub) return original();
+  if (stub === null) throw moduleNotFoundError(request)
 
   var stubWideNoCallThru = !!stubs['@noCallThru'] && stub['@noCallThru'] !== false;
   var noCallThru = stubWideNoCallThru || !!stub['@noCallThru'];
