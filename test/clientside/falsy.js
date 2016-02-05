@@ -15,6 +15,12 @@ test('overriding dep with a false value', function (t) {
   t.end()
 })
 
+test('overriding dep with undefined', function (t) {
+  var value = proxyquire('../fixtures/value', { './true': undefined })
+  t.equals(value, undefined)
+  t.end()
+})
+
 test('throws with a null value', function (t) {
   t.throws(load, /cannot find module/)
   t.end()

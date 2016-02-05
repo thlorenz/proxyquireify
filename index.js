@@ -79,8 +79,8 @@ proxyquire._proxy = function (require_, request) {
 
   if (stub === null) throw moduleNotFoundError(request)
 
-  var stubWideNoCallThru = !!stubs['@noCallThru'] && stub['@noCallThru'] !== false;
-  var noCallThru = stubWideNoCallThru || !!stub['@noCallThru'];
+  var stubWideNoCallThru = Boolean(stubs['@noCallThru']) && (stub == null || stub['@noCallThru'] !== false);
+  var noCallThru = stubWideNoCallThru || (stub != null && Boolean(stub['@noCallThru']));
   return noCallThru ? stub : fillMissingKeys(stub, original());
 };
 
