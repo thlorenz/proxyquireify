@@ -34,12 +34,14 @@ function stub(stubs_) {
   // This cache is used by the prelude as an alternative to the regular cache.
   // It is not read or written here, except to set it to an empty object when
   // adding stubs and to reset it to null when clearing stubs.
-  module.exports._cache = {};
+  module.exports.createCache();
 }
 
-function reset() {
+function reset(manuallyCache_) {
   stubs = undefined;
-  module.exports._cache = null;
+  if (!manuallyCache_) {
+    module.exports.clearCache();
+  }
 }
 
 var proxyquire = module.exports = function (require_) {
@@ -51,7 +53,7 @@ var proxyquire = module.exports = function (require_) {
 
   reset();
 
-  return function(request, stubs) {
+  return function(request, stubs, manuallyCache_) {
 
     validateArguments(request, stubs);
 
@@ -59,10 +61,21 @@ var proxyquire = module.exports = function (require_) {
     // when stub require is invoked by the module under test it will find the stubs here
     stub(stubs);
     var dep = require_(request);
-    reset();
+    reset(manuallyCache_);
 
     return dep;
   };
+};
+
+proxyquire.createCache = function() {
+  if (proxyquire._cache) {
+    return;
+  }
+  proxyquire._cache = {};
+};
+
+proxyquire.clearCache = function() {
+  proxyquire._cache = null;
 };
 
 // Start with the default cache
