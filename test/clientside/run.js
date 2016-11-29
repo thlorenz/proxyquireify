@@ -50,6 +50,7 @@ var clientTests = [
   , 'noCallThru'
   , 'argument-validation'
   , 'falsy'
+  , 'use-strict'
 ];
 
 compileAll(clientTests, function (err, results) {
